@@ -103,16 +103,24 @@
                     board[tmp[i][0]][tmp[i][1]] = turn;
                 }
                 board[ey][ex] = turn;
-                turn += -1;
+                turn *= -1;
 
                 update();
             }
 
-            document.getElementById("message").textContent = "clicked " + ey + " " + ex;
+            //document.getElementById("message").textContent = "clicked " + ey + " " + ex;
         }
 
         function passCheck(color) {
-            return false;            
+            for (var iy = 0; iy < 8; iy++) {
+                for (var ix = 0; ix < 8; ix++) {
+                    var tmp = cheakAll(iy, ix, turn);
+                    if (tmp.length > 0) {
+                        return false;
+                    } 
+                }
+            }
+            return true;            
         }
 
         function cheakAll(y, x, color) {
@@ -137,8 +145,7 @@
             retVal = retVal.concat(tmp7);
             var tmp8 = cheakOne(y, x,  0, -1, turn);
             retVal = retVal.concat(tmp8);
-
-            return [];            
+            return retVal;            
         }
 
         function cheakOne(y, x, dy, dx, color) {
@@ -156,6 +163,9 @@
                 else {
                     retVal.push([tmpy, tmpx]);
                 }
+
+                tmpy += dy;
+                tmpx += dx;
             }
             return [];
         }
