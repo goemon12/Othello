@@ -97,16 +97,67 @@
             var ey = parseInt(e.target.id.charAt(2));
             var ex = parseInt(e.target.id.charAt(3));
             
-            if (board[ey][ex] == 0) {
+            var tmp = cheakAll(ey, ex, turn);
+            if (tmp.length > 0) {
+                for (var i = 0; i < tmp.length; i++) {
+                    board[tmp[i][0]][tmp[i][1]] = turn;
+                }
                 board[ey][ex] = turn;
-                turn *= -1;
+                turn += -1;
+
+                update();
             }
 
-            update();
+            document.getElementById("message").textContent = "clicked " + ey + " " + ex;
         }
 
         function passCheck(color) {
             return false;            
+        }
+
+        function cheakAll(y, x, color) {
+            if (board[y][x] != 0) {
+                return [];
+            }
+
+            var retVal = [];
+            var tmp1 = cheakOne(y, x, -1, -1, turn);
+            retVal = retVal.concat(tmp1);
+            var tmp2 = cheakOne(y, x, -1,  0, turn);
+            retVal = retVal.concat(tmp2);
+            var tmp3 = cheakOne(y, x, -1,  1, turn);
+            retVal = retVal.concat(tmp3);
+            var tmp4 = cheakOne(y, x,  0,  1, turn);
+            retVal = retVal.concat(tmp4);
+            var tmp5 = cheakOne(y, x,  1,  1, turn);
+            retVal = retVal.concat(tmp5);
+            var tmp6 = cheakOne(y, x,  1,  0, turn);
+            retVal = retVal.concat(tmp6);
+            var tmp7 = cheakOne(y, x,  1, -1, turn);
+            retVal = retVal.concat(tmp7);
+            var tmp8 = cheakOne(y, x,  0, -1, turn);
+            retVal = retVal.concat(tmp8);
+
+            return [];            
+        }
+
+        function cheakOne(y, x, dy, dx, color) {
+            var tmpy = y + dy;
+            var tmpx = x + dx;
+            var retVal = [];
+
+            while (tmpy >= 0 && tmpy < 8 && tmpx >= 0 && tmpx < 8) {
+                if (board[tmpy][tmpx] == 0) {
+                    break;
+                }
+                if (board[tmpy][tmpx] == color) {
+                    return retVal;
+                }
+                else {
+                    retVal.push([tmpy, tmpx]);
+                }
+            }
+            return [];
         }
     </script>
 </head>
