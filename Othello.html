@@ -7,8 +7,67 @@
             background-color: lightgray;
             border-collapse: collapse;
         }
-
+        td {
+            width: 30px;
+            height: 30px;
+            border: 1px solid black;
+            text-align: center;
+            font-size: 15px;
+        }
     </style>
+    <script>
+        var BLACK =  1;
+        var WHITE = -1;
+        var board = [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1,-1, 0, 0, 0],
+            [0, 0, 0,-1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0]
+        ];
+
+        function init() {
+            var tbl = document.getElementById("tbl");
+            for (var iy = 0; iy < 8; iy++) {
+                var tr = document.createElement("tr");
+                for (var ix = 0; ix < 8; ix++) {
+                    var td = document.createElement("td");
+                    td.id = "td" + iy + ix;
+                    tr.appendChild(td);
+                }
+                tbl.appendChild(tr);
+            }
+            update();
+        }
+
+        function update() {
+            var numBlack = 0;
+            var numWhite = 0;
+
+            for (var iy = 0; iy < 8; iy++) {
+                for (var ix = 0; ix < 8; ix++) {
+                    var td = document.getElementById("td" + iy + ix);
+                    switch (board[iy][ix]) {
+                        case BLACK:
+                            td.textContent = "●";
+                            td.style.color = "black";
+                            numBlack++;
+                            break;
+                        case WHITE:
+                            td.textContent = "●";
+                            td.style.color = "white";
+                            numWhite++;
+                            break;
+                        default:
+                            td.textContent = "";
+                    }
+                }
+            }            
+        }
+    </script>
 </head>
 <body onload="init()">
     <table id="tbl"></table>
